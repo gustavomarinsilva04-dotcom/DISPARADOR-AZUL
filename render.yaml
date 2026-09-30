@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: disparador-whatsapp
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 1 --threads 4 -b 0.0.0.0:$PORT app:app
+    healthCheckPath: /saude
+    disk:
+      name: dados
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: DATA_DIR
+        value: /data
+      - key: LIMITE_DIA
+        value: "100"
+      - key: WA_LANG
+        value: pt_BR
+      - key: APP_SENHA
+        sync: false
+      - key: WA_TOKEN
+        sync: false
+      - key: WA_PHONE_ID
+        sync: false
+      - key: WA_TEMPLATE
+        sync: false
+      - key: WA_VERIFY_TOKEN
+        sync: false
